@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Homepage</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    
+    <!-- ======== NEW CDN LINKS ======== -->
+    
+    <!-- 1. Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- 2. Boxicons Icon Library -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- =============================== -->
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="left-widgets">
+        <div id="weather-widget" class="widget">
+         <div class="weather-input-container"> 
+                <input type="text" id="weather-city-input" placeholder="Enter City...">
+                <button id="weather-search-btn"><i class='bx bx-search'></i></button> 
+            </div>
+            <div class="weather-main">
+                <span id="weather-temp">28°C</span>
+                <span id="weather-icon">🌤️</span>   
+            </div>
+            <p id="weather-desc">Mostly Sunny</p>
+                <p id="weather-feels-like">Feels like 30°C</p>
+            <div id="weather-details">
+                <span>Humidity: <span id="weather-humidity">70%</span></span>
+                <span>Wind: <span id="weather-wind">5 km/h</span></span>
+            </div>
+            <small>(This is demo data. Add API key in script.js)</small>
+        </div>
+
+        <div id="notes-widget" class="widget">
+            <h3>My Notes</h3>
+            <textarea id="notes-textarea" placeholder="Type anything here... it saves automatically."></textarea>
+        </div>
+    </aside>
+
+    <main class="center-content">
+        <div id="time-widget">10:23</div>
+
+        <div id="search-container">
+            <script async src="https://cse.google.com/cse.js?cx=359536f2ecdf549aa">
+</script>
+<div class="gcse-search" data-linktarget="_blank"></div>
+            </div>
+
+
+        <div id="shortcuts-grid">
+            </div>
+    </main>
+
+  <!-- ======== MODIFIED SETTINGS BUTTON ======== -->
+  <button id="settings-btn"><i class='bx bxs-cog'></i></button>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <!-- ======== MODIFIED MODAL HEADER ======== -->
+            <div class="modal-header">
+                <h2>
+                    <span class="settings-icon"><i class='bx bxs-cog'></i></span> Settings
+                </h2>
+                <span class="close-btn">&times;</span>
+            </div>
+
+            <!-- New flex container for nav and content -->
+            <div class="modal-body">
+                <!-- ======== MODIFIED SIDE NAVIGATION ======== -->
+                <nav class="settings-nav">
+                    <button class="tab-link active" data-tab="wallpaper-tab">
+                        <i class='bx bxs-image-alt tab-icon'></i> Wallpaper
+                    </button>
+                    <button class="tab-link" data-tab="shortcuts-tab">
+                        <i class='bx bxs-share-alt tab-icon'></i> Shortcuts
+                    </button>
+                    <button class="tab-link" data-tab="layout-tab">
+                        <i class='bx bxs-layout tab-icon'></i> Layout
+                    </button>
+                    <!-- ======== NEW TIME TAB ======== -->
+                    <button class="tab-link" data-tab="time-tab">
+                        <i class='bx bxs-time tab-icon'></i> Time
+                    </button>
+                </nav>
+
+                <!-- New Content Area -->
+                <div class="settings-content">
+                    <!-- Wallpaper Tab -->
+                    <div id="wallpaper-tab" class="tab-content active">
+                        <h3>Customize Wallpaper</h3>
+                        <div class="wallpaper-options">
+                            <div class="setting-card">
+                                <h4>Upload New</h4>
+                                <label for="wallpaper-upload" class="file-upload-label">
+                                    Choose Image/GIF...
+                                </label>
+                                <input type="file" id="wallpaper-upload" accept="image/*,image/gif">
+                                <input type="text" id="wallpaper-url" placeholder="...or paste image URL">
+                                <button id="wallpaper-url-btn">Apply URL</button>
+                            </div>
+
+                            <div class="setting-card">
+                                <h4>Crop & Position</h4>
+                                <!-- Placeholder for Cropper.js -->
+                                <div id="crop-container" style="display: none; height: 300px; margin-bottom: 15px; background: #eee;">
+                                    <img id="image-to-crop" src="" alt="Image preview for cropping" style="display: block; max-width: 100%; max-height: 300px;">
+                                </div>
+                                <button id="apply-crop-btn" style="display: none;">Apply Crop</button>
+                                <!-- Fallback options -->
+                                <div id="fallback-positioning">
+                                    <label for="bg-size">Background Size:</label>
+                                    <select id="bg-size">
+                                        <option value="cover">Cover (Fill)</option>
+                                        <option value="contain">Contain (Fit)</option>
+                                        <option value="auto">Auto (Original)</option>
+                                    </select>
+                                    <label for="bg-pos">Position:</label>
+                                    <select id="bg-pos">
+                                        <option value="center center">Center</option>
+                                        <option value="left top">Top Left</option>
+                                        <option value="center top">Top Center</option>
+                                        <option value="right top">Top Right</option>
+                                        <option value="left center">Center Left</option>
+                                        <option value="right center">Center Right</option>
+                                        <option value="left bottom">Bottom Left</option>
+                                        <option value="center bottom">Bottom Center</option>
+                                        <option value="right bottom">Bottom Right</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shortcuts Tab -->
+                    <div id="shortcuts-tab" class="tab-content">
+                        <h3>Manage Shortcuts</h3>
+                        <div class="setting-card">
+                            <form id="add-shortcut-form">
+                                <h4>Add New Shortcut</h4>
+                                <input type="text" id="shortcut-name" placeholder="Name (e.g., 'Reddit')" required>
+                                <input type="url" id="shortcut-url" placeholder="Full URL (https://reddit.com)" required>
+                                <input type="url" id="shortcut-icon" placeholder="Icon URL (Optional - will auto-fetch)">
+                                <button type="submit">Add Shortcut</button>
+                            </form>
+                        </div>
+                        <div class="setting-card">
+                            <h4>Current Shortcuts</h4>
+                            <ul id="shortcut-list">
+                                <!-- List generated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Layout Tab -->
+                    <div id="layout-tab" class="tab-content">
+                        <h3>Customize Layout</h3>
+                        <div class="setting-card">
+                            <!-- ======== CONTENT POSITION DROPDOWN ======== -->
+                            <div class="slider-group">
+                                <label for="content-position">Content Vertical Position</label>
+                                <select id="content-position">
+                                    <option value="flex-start">Top</option>
+                                    <option value="center">Middle</option>
+                                    <option value="flex-end">Bottom</option>
+                                </select>
+                            </div>
+                            
+                            <div class="slider-group">
+                                <label for="time-size">Time Font Size (<span id="time-size-val">8</span>rem)</label>
+                                <input type="range" id="time-size" min="2" max="15" step="0.5">
+                            </div>
+                            <div class="slider-group">
+                                <label for="search-width">Search Bar Width (<span id="search-width-val">600</span>px)</label>
+                                <input type="range" id="search-width" min="300" max="1000" step="10">
+                            </div>
+                            <div class="slider-group">
+                                <label for="icon-size">Shortcut Icon Size (<span id="icon-size-val">48</span>px)</label>
+                                <input type="range" id="icon-size" min="24" max="80" step="1">
+                            </div>
+                            <!-- ======== RENAMED SLIDER ======== -->
+                            <div class="slider-group">
+                                <label for="icons-per-column">Icons per Column (<span id="icons-per-column-val">5</span>)</label>
+                                <input type="range" id="icons-per-column" min="1" max="10" step="1">
+                            </div>
+                            <!-- ======== RENAMED SLIDER ======== -->
+                             <div class="slider-group">
+                                <label for="columns-per-row">Columns per Row (<span id="columns-per-row-val">5</span>)</label>
+                                <input type="range" id="columns-per-row" min="1" max="10" step="1">
+                            </div>
+                            <div class="slider-group">
+                                <label for="col-gap">Column Gap (<span id="col-gap-val">20</span>px)</label>
+                                <input type="range" id="col-gap" min="5" max="50" step="1">
+                            </div>
+                            <div class="slider-group">
+                                <label for="row-gap">Row Gap (<span id="row-gap-val">20</span>px)</label>
+                                <input type="range" id="row-gap" min="5" max="50" step="1">
+                            </div>
+                            
+                            <!-- ======== RESET BUTTON ======== -->
+                            <button id="reset-layout-btn">Reset Layout</button>
+                        </div>
+                    </div>
+
+                    <!-- ======== TIME FORMAT TAB ======== -->
+                    <div id="time-tab" class="tab-content">
+                        <h3>Time Format</h3>
+                        <div class="setting-card">
+                            <div class="toggle-row">
+                                <span>24-Hour Format</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="time-format-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-row" id="time-ampm-row">
+                                <span>Show AM/PM</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="time-ampm-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- end .settings-content -->
+            </div> <!-- end .modal-body -->
+        </div> <!-- end .modal-content -->
+    </div> <!-- end .modal -->
+    
+    <!-- ADD: Link to Cropper.js script (if you use it) -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script> -->
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,1081 @@
+/* ======== GLOBAL & CSS VARIABLES ======== */
+:root {
+    --wallpaper: url('/wallpaper.gif');
+    --bg-size: cover;
+    --bg-pos: center center;
+    --text-color: #ffffff;
+    --widget-bg: rgba(0, 0, 0, 0.4);
+    --widget-blur: 10px;
+    
+    /* Layout variables (controlled by settings) */
+    --time-font-size: 8rem;
+    --search-bar-width: 600px;
+    --icon-size: 48px;
+    --grid-col-gap: 20px;
+    --grid-row-gap: 20px;
+    --content-justify: center; 
+    --grid-icons-per-column: 5; /* RENAMED */
+    --grid-columns: 5;         /* RENAMED */
+
+
+    /* ======== NEW FONT & STYLE VARIABLES (FOR MODAL ONLY) ======== */
+    --main-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --modern-accent: #5E5DF0; 
+    --modern-accent-hover: #4E4DC0; 
+    
+    /* Glassmorphism variables */
+    --glass-bg: rgba(35, 35, 45, 0.6);        /* Dark, slightly blue glass */
+    --glass-border: rgba(255, 255, 255, 0.2); /* Soft white border */
+    --glass-blur: 20px;
+    --glass-nav-bg: rgba(255, 255, 255, 0.05); /* Lighter glass for cards/nav */
+    --glass-text: #ffffff;
+    --glass-text-muted: #e0e0e0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* ======== ORIGINAL BODY FONT (UNCHANGED) ======== */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-image: var(--wallpaper);
+    background-size: var(--bg-size);
+    background-position: var(--bg-pos);
+    background-attachment: fixed;
+    color: var(--text-color);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: background-image 0.5s ease-in-out;
+    overflow: hidden; /* Changed back for popup */  
+}
+
+/* ======== LAYOUT (UNCHANGED) ======== */
+.left-widgets {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: var(--content-justify); /* UPDATED */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ======== WIDGETS (UNCHANGED) ======== */
+.widget {
+    background: var(--widget-bg);
+    backdrop-filter: blur(var(--widget-blur));
+    border-radius: 12px;
+    padding: 1.2rem;
+    width: 280px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* REMOVED .widget h3 rule */
+
+/* NEW: Wrapper for weather input */
+#weather-input-container {
+    position: relative;
+    margin-bottom: 10px; /* Match original h3 margin */
+}
+
+/* Styles for weather city input to mimic h3 */
+#weather-city-input {
+    width: 100%;
+    background: transparent; 
+    border: none;            
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 0;        
+    padding: 0 30px 5px 0; /* Add padding-right for button */
+    color: var(--text-color);  
+    font-size: 1.15rem;       
+    font-weight: 600;        
+    font-family: inherit;    
+    text-shadow: inherit;    
+    outline: none;
+    transition: border-color 0.3s ease-in-out; 
+}
+#weather-city-input::placeholder {
+    color: rgba(255, 255, 255, 0.6); 
+    font-weight: 400; 
+    opacity: 1; 
+}
+#weather-city-input:focus {
+     border-color: var(--modern-accent); 
+     box-shadow: none; 
+}
+
+/* NEW: Style for the search button inside the input */
+#weather-search-btn {
+    position: absolute;
+    right: 15px;
+    top: 25px;
+    background: transparent;
+    border: none;
+    color: var(--glass-text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 5px; /* Some padding around icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+#weather-search-btn:hover {
+    opacity: 1;
+    color: var(--glass-text);
+}
+#weather-search-btn i {
+    line-height: 1; /* Better icon centering */
+}
+
+
+/* Weather */
+.weather-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+.weather-main #weather-icon {
+    font-size: 3rem;
+}
+#weather-desc {
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+#weather-feels-like {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 8px;
+}
+
+#weather-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 10px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* Notes (UNCHANGED) */
+#notes-textarea {
+    width: 100%;
+    height: 150px;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: none;
+}
+#notes-textarea:focus {
+    outline: none;
+}
+
+/* ======== CENTER CONTENT (UNCHANGED) ======== */
+#time-widget {
+    font-size: var(--time-font-size);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+#search-container {
+    width: var(--search-bar-width);
+    max-width: 90%;
+    margin-bottom: 1.5rem; /* <-- ADJUSTED SPACING */
+    /* This needs to be relative so the dropdown can align */
+    position: relative; 
+}
+
+/* This is the placeholder styling. Your Google PSE will have its own. (UNCHANGED) */
+.placeholder-search {
+    display: flex;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    padding: 5px;
+}
+.placeholder-search input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    text-shadow: none;
+}
+.placeholder-search button {
+    border: none;
+    background: #4285F4;
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+}
+
+
+/* ======== UPDATED: Shortcuts Grid Layout ======== */
+#shortcuts-grid {
+    display: grid;
+    /* Define columns based on 'Columns per Row' setting */
+    grid-template-columns: repeat(var(--grid-columns), auto); 
+    /* Define rows based on 'Icons per Column' setting */
+    grid-template-rows: repeat(var(--grid-icons-per-column), auto); 
+    /* Flow items into ROWS first (default behaviour) */
+    grid-auto-flow: row; 
+    gap: var(--grid-row-gap) var(--grid-col-gap);
+    justify-content: center; /* Center the grid container */
+    align-items: start; /* Align items to the start of each cell */
+    max-width: 90%; /* Allow grid to take more space if needed */
+    width: auto; /* Let the grid determine its width */
+    padding: 0 10px; /* Add some padding */
+}
+
+.shortcut-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.8rem;
+    text-align: center;
+    transition: transform 0.2s ease-in-out; 
+    /* Width now controlled by grid gap + icon size */
+    width: auto; 
+
+    /* --- FIX for wibble --- */
+    backface-visibility: hidden;
+    will-change: transform;
+}
+.shortcut-item:hover {
+    transform: scale(1.1);
+}
+
+.shortcut-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 8px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: contain;
+}
+.shortcut-name {
+    /* Limit width to prevent overflow issues */
+    max-width: calc(var(--icon-size) + 20px); 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform: none;
+}
+
+
+/* ======== SETTINGS MODAL (UPDATED) ======== */
+#settings-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1.8rem; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: var(--widget-bg);
+    backdrop-filter: blur(var(--widget-blur));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.3s ease;
+}
+
+/* ================================================================
+======== NEW "GLASSMORPHISM" SETTINGS MODAL STYLES ========
+================================================================
+*/
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    font-family: var(--main-font); /* Apply Inter font ONLY to modal */
+    background-color: var(--glass-bg);
+    color: var(--glass-text);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    margin: 8vh auto; 
+    padding: 0; 
+    border: 1px solid var(--glass-border);
+    width: 70%; 
+    max-width: 900px;
+    height: 80vh; 
+    max-height: 700px;
+    border-radius: 12px; /* Slightly more rounded */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column; 
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.modal-header {
+    background-color: var(--glass-nav-bg);
+    padding: 20px 25px; 
+    margin: 0;
+    font-size: 1.3rem;
+    border-bottom: 1px solid var(--glass-border); 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    flex-shrink: 0; 
+}
+
+.modal-header h2 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-weight: 600; 
+    color: var(--glass-text); /* Ensure white */
+}
+
+.settings-icon {
+    margin-right: 12px;
+    font-size: 1.6rem; 
+    color: var(--glass-text); /* Ensure white */
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.close-btn {
+    color: var(--glass-text-muted);
+    position: static; 
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+.close-btn:hover {
+    color: var(--glass-text);
+}
+
+/* Flex container for Nav and Content */
+.modal-body {
+    display: flex;
+    flex-grow: 1; 
+    overflow: hidden; 
+}
+
+/* Side Navigation Bar */
+.settings-nav {
+    flex-basis: 220px; 
+    flex-shrink: 0;
+    background-color: transparent; /* Use modal bg */
+    padding: 20px 15px;
+    border-right: 1px solid var(--glass-border); 
+    overflow-y: auto; 
+}
+
+/* Side Navigation Buttons */
+.tab-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    background-color: transparent;
+    border: none;
+    border-radius: 6px; 
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--glass-text-muted); /* Muted white text */
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* SMOOTHER */
+}
+
+.tab-icon {
+    margin-right: 12px;
+    font-size: 1.3rem; 
+    width: 20px; 
+    text-align: center;
+    vertical-align: middle; 
+    line-height: 1; 
+    color: inherit; 
+    opacity: 0.8;
+}
+
+.tab-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Light glass hover */
+    color: var(--glass-text);
+}
+
+.tab-link:hover .tab-icon,
+.tab-link.active .tab-icon {
+    opacity: 1;
+}
+
+.tab-link.active {
+    background-color: var(--modern-accent); /* Solid accent */
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(94, 93, 240, 0.2); 
+}
+
+/* Content Area */
+.settings-content {
+    flex-grow: 1;
+    padding: 30px 35px;
+    background-color: transparent; /* Use modal bg */
+    overflow-y: auto; 
+}
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+    animation: contentFadeIn 0.4s ease; 
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.tab-content h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--glass-border); 
+    font-size: 1.5rem;
+    color: var(--glass-text);
+}
+
+.tab-content h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: var(--glass-text);
+    font-weight: 600;
+}
+
+/* Card layout for settings groups */
+.setting-card {
+    background: var(--glass-nav-bg); /* Use lighter glass */
+    border: 1px solid var(--glass-border); 
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: none;
+}
+.tab-content > .setting-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Settings Forms & Inputs */
+#settings-modal input[type="text"],
+#settings-modal input[type="url"],
+#settings-modal select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+    border: 1px solid var(--glass-border);
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    background-color: rgba(255, 255, 255, 0.1); /* Glass input */
+    color: var(--glass-text); /* White text */
+    font-family: var(--main-font); /* Ensure font */
+    transition: all 0.3s ease-in-out; /* SMOOTHER */
+}
+.setting-card > *:last-child,
+.setting-card form > *:last-child {
+    margin-bottom: 0;
+}
+
+/* Style for select dropdown options */
+#settings-modal select option {
+    background: #333;
+    color: #fff;
+}
+
+#settings-modal input[type="text"]::placeholder,
+#settings-modal input[type="url"]::placeholder {
+    color: var(--glass-text-muted);
+    opacity: 0.8;
+}
+
+#settings-modal input[type="text"]:focus,
+#settings-modal input[type="url"]:focus,
+#settings-modal select:focus {
+    border-color: var(--modern-accent); 
+    background-color: rgba(255, 255, 255, 0.15); /* Slightly brighter on focus */
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(94, 93, 240, 0.25); 
+}
+
+/* UPDATED: Specific Button Styles */
+#wallpaper-url-btn,
+#add-shortcut-form button[type="submit"] {
+    background-color: var(--modern-accent);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease-in-out; /* SMOOTHER */
+    box-shadow: 0 4px 14px 0 rgba(94, 93, 240, 0.3); 
+    
+    /* Ensure layout styles are consistent */
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+
+    /* --- FIX for wibble --- */
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+#wallpaper-url-btn:hover,
+#add-shortcut-form button[type="submit"]:hover {
+    background-color: var(--modern-accent-hover);
+    box-shadow: 0 6px 16px 0 rgba(94, 93, 240, 0.35); 
+    transform: translateY(-1px); 
+}
+
+
+/* File Upload Button Styling (UPDATED) */
+#wallpaper-upload {
+    display: none;
+}
+.file-upload-label {
+    display: block; 
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--modern-accent); /* Use accent color */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out; /* SMOOTHER */
+    box-shadow: 0 4px 14px 0 rgba(94, 93, 240, 0.3); /* Use accent shadow */
+
+    /* --- FIX for wibble --- */
+    backface-visibility: hidden;
+    will-change: transform;
+}
+.file-upload-label:hover {
+    background-color: var(--modern-accent-hover); /* Use accent hover */
+    box-shadow: 0 6px 16px 0 rgba(94, 93, 240, 0.35); /* Use accent shadow */
+    transform: translateY(-1px);
+}
+
+/* Style for the new Reset Layout button */
+#reset-layout-btn {
+    background-color: #6c757d; /* Muted gray */
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease-in-out; /* SMOOTHER */
+    box-shadow: 0 4px 14px 0 rgba(108, 117, 125, 0.3); /* Muted shadow */
+    
+    /* Layout styles from other buttons */
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 10px; /* Add some space above */
+    display: inline-block;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    margin-bottom: 0; /* Ensure no extra margin at bottom */
+
+    /* --- FIX for wibble --- */
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+#reset-layout-btn:hover {
+    background-color: #5a6268;
+    box-shadow: 0 6px 16px 0 rgba(108, 117, 125, 0.35); 
+    transform: translateY(-1px); 
+}
+
+
+/* Wallpaper Tab Layout */
+.wallpaper-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+.wallpaper-options .setting-card {
+    margin-bottom: 0; 
+}
+
+.crop-section #fallback-positioning label {
+    display: block;
+    margin: 15px 0 5px 0;
+    font-weight: 500;
+    color: var(--glass-text-muted);
+}
+.crop-section #fallback-positioning select {
+    margin-bottom: 0;
+}
+.crop-section #fallback-positioning select:first-of-type {
+    margin-top: 0;
+}
+
+
+/* ======== UPDATED: Shortcuts Tab Layout ======== */
+#add-shortcut-form {
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+#shortcut-list {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    margin: 0;
+}
+/* This is now the list item */
+.shortcut-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5px;
+    border-bottom: 1px solid var(--glass-border); 
+    transition: background-color 0.2s ease-in-out;
+}
+.shortcut-list-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.shortcut-list-item:first-child {
+    padding-top: 0;
+}
+
+/* NEW: Container for handle and info */
+.shortcut-info {
+    display: flex;
+    align-items: center;
+    color: var(--glass-text);
+    font-weight: 500;
+}
+.shortcut-info img {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+/* NEW: Move handle style */
+.move-handle {
+    cursor: grab;
+    font-size: 1.2rem;
+    color: var(--glass-text-muted);
+    margin-right: 10px;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+.shortcut-list-item:hover .move-handle {
+    opacity: 1;
+}
+
+/* NEW: Dragging visual styles */
+.shortcut-list-item.dragging {
+    opacity: 0.5;
+    background: var(--glass-nav-bg);
+}
+.shortcut-list-item.drag-over {
+    /* Shows where the item will be dropped */
+    border-top: 2px solid var(--modern-accent);
+    padding-top: 10px; /* Adjust padding to match border */
+}
+
+
+.delete-shortcut-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    width: auto;
+    margin: 0;
+    box-shadow: 0 4px 14px 0 rgba(220, 53, 69, 0.3);
+    transition: all 0.3s ease-in-out; /* SMOOTHER */
+    
+    /* --- FIX for wibble --- */
+    backface-visibility: hidden;
+    will-change: transform;
+}
+.delete-shortcut-btn:hover {
+    background-color: #c82333;
+    box-shadow: 0 6px 16px 0 rgba(220, 53, 69, 0.35);
+    transform: translateY(-1px); /* Added transform */
+}
+
+/* Layout Sliders */
+.slider-group {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--glass-border); 
+}
+.slider-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.slider-group label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: var(--glass-text-muted);
+}
+.slider-group input[type="range"] {
+    width: 100%;
+    cursor: pointer;
+}
+
+/* ======== NEW TOGGLE SWITCH STYLES ======== */
+.toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--glass-border);
+    font-weight: 500;
+    color: var(--glass-text-muted);
+    transition: opacity 0.3s ease-in-out;
+}
+.setting-card .toggle-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.setting-card .toggle-row:first-child {
+    padding-top: 0;
+}
+.toggle-row.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.toggle-row.disabled .toggle-switch {
+    pointer-events: none;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease-in-out;
+    border-radius: 28px;
+}
+.toggle-switch .slider::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+    border-radius: 50%;
+}
+.toggle-switch input:checked + .slider {
+    background-color: var(--modern-accent);
+}
+.toggle-switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+/* =========================================== */
+
+
+/* Styling for Range Input Track/Thumb */
+input[type=range] {
+  height: 25px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+  background: transparent;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2); /* Glass track */
+  border-radius: 3px;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: var(--modern-accent); 
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6.5px; 
+}
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2); /* Glass track */
+    border-radius: 3px;
+}
+input[type=range]::-moz-range-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: var(--modern-accent); 
+    cursor: pointer;
+    border: none;
+}
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    background: rgba(255, 255, 255, 0.2); /* Glass track */
+    border-radius: 3px;
+}
+input[type=range]::-ms-fill-upper {
+    background: rgba(255, 255, 255, 0.2); /* Glass track */
+    border-radius: 3px;
+}
+input[type=range]::-ms-thumb {
+    margin-top: 1px;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: var(--modern-accent); 
+    cursor: pointer;
+}
+
+
+/* ======== GOOGLE CSE STYLE OVERRIDES (UNCHANGED) ======== */
+/* This block styles your new Google Search bar */
+
+/* Main container for the search box */
+.gcse-search {
+    width: 100% !important; /* Make it fill the search-container width */
+    height: 54px !important; /* Give it a fixed height to match padding */
+}
+
+/* The form element itself */
+form.gsc-search-box {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: var(--widget-bg) !important;
+    backdrop-filter: blur(var(--widget-blur)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 50px !important; /* Makes it a "pill" shape */
+    padding: 5px !important;
+}
+
+/* The table row/box holding the input and button */
+.gsc-input-box {
+    display: flex !important;
+    flex-grow: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    height: 100% !important;
+}
+
+/* The actual search input field */
+input.gsc-input,
+input.gsc-input:focus {
+    flex-grow: 1 !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 10px 20px !important;
+    font-size: 1rem !important;
+    color: var(--text-color) !important;
+    text-shadow: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    height: 100% !important;
+}
+
+/* The search button */
+button.gsc-search-button,
+button.gsc-search-button:hover,
+button.gsc-search-button:focus {
+    border: none !important;
+    background: #4285F4 !important; /* Google Blue */
+    color: white !important;
+    font-size: 1.2rem !important;
+    border-radius: 50% !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    /* Align button vertically */
+    align-self: center;
+}
+
+/* Hide the "clear" (X) button */
+.gsc-clear-button {
+    display: none !important;
+}
+
+/* Hide the Google branding */
+.gsc-branding {
+    display: none !important;
+}
+
+/* This is the container for the results pop-up (if you use overlay) */
+.gsc-control-cse {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+
+/* ======== GOOGLE CSE AUTOCOMPLETE / SUGGESTIONS STYLES (UNCHANGED) ======== */
+
+/* This is the main container for the suggestions dropdown */
+.gsc-completion-container {
+    background: var(--widget-bg) !important;
+    backdrop-filter: blur(var(--widget-blur)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    margin-top: 8px !important;
+    box-shadow: none !important;
+    /* --- NEW: Make width match search bar --- */
+    width: var(--search-bar-width) !important;
+    max-width: 90% !important;
+    
+    /* --- NEW ALIGNMENT LOGIC --- */
+    /* 1. Reset Google's inline style */
+    left: auto !important;
+    right: auto !important;
+    
+    /* 2. Set our own centering logic */
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    
+    /* 3. Clear any leftover margins */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* This holds all the suggestion rows */
+.gsc-completion {
+    padding: 8px !important;
+}
+
+/* This is a single suggestion row */
+.gsc-completion-selected,
+.gsc-completion-container .gsc-completion-row {
+    background: transparent !important;
+    border: none !important;
+    /* --- NEW: Increased padding & font size --- */
+    padding: 10px 14px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-size: 1rem !important;
+}
+
+/* This is the row you are hovering over */
+.gsc-completion-selected {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-color) !important;
+    border-radius: 6px;
+}
+
+/* This styles the bolded part of the suggestion text */
+.gsc-completion-container b {
+    color: var(--text-color) !important;
+    font-weight: 600 !important;
+}
+
+/* ======== HIDE GOOGLE SEARCH RESULTS OVERLAY (FINAL) (UNCHANGED) ======== */
+/* This permanently hides the popup since we hijack the search */
+.gsc-results-wrapper-overlay {
+    display: none !important;
+}
+
+/* This hides the white modal background overlay */
+.gsc-modal-background-image,
+.gsc-modal-background-image-visible {
+    display: none !important;
+}
+
