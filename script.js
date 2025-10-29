@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let settings = {};
   const defaultSettings = {
     wallpaper: {
-      url: "wallpaper.gif",
+      url: "/wallpaper.gif",
       size: "cover",
       position: "center center",
     },
@@ -658,6 +658,3 @@ const randomPlaceholder = funnyPlaceholders[Math.floor(Math.random() * funnyPlac
     console.log("All search components found and hijacked.");
   }
 }
-
-
-
