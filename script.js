@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cityToFetch = cityName || settings.weather.city || "Bhubaneswar";
     console.log("Fetching weather for:", cityToFetch);
 
-    const apiKey = "WEATHER_API_KEY"; // <-- PASTE YOUR OPENWEATHERMAP API KEY HERE
+    const apiKey = "1ed489abf33ffc9ab31faa43cccefe30"; // <-- PASTE YOUR OPENWEATHERMAP API KEY HERE
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityToFetch}&appid=${apiKey}&units=metric`;
 
     if (!apiKey) {
@@ -658,5 +658,6 @@ const randomPlaceholder = funnyPlaceholders[Math.floor(Math.random() * funnyPlac
     console.log("All search components found and hijacked.");
   }
 }
+
 
 
